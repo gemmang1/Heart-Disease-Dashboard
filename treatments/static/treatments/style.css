@@ -1,0 +1,33 @@
+
+.max-viewport-height {
+    height: 100vh;
+    margin: 0px;
+  }
+  
+  .zoom-on-hover {
+    transition: transform 0.2s;
+  }
+  
+  .zoom-on-hover:hover {
+    transform: scale(1.1);
+    cursor: pointer;
+  }
+  
+  /* https://stackoverflow.com/questions/11660710/css-transition-fade-in */
+  .fade-in {
+      opacity: 1;
+      animation-name: fadeInOpacity;
+      animation-iteration-count: 1;
+      animation-timing-function: ease-in;
+      animation-duration: 0.5s;
+  }
+  
+  @keyframes fadeInOpacity {
+      0% {
+          opacity: 0;
+      }
+      100% {
+          opacity: 1;
+      }
+  }
+  

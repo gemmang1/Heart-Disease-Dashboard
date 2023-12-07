@@ -1,0 +1,436 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Prediction Results</title>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous">
+        </script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
+        integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous">
+        </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js"
+        integrity="sha384-w1Q4orYjBQndcko6MimVbzY0tgp4pWB4lZ7lr30WKz0vr/aWKhXdBNmNb5D92v7s" crossorigin="anonymous">
+        </script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css"
+        integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'home/style.css' %}">
+    {% load static %}
+    <link rel="icon" href="{% static 'home/favicon.png' %}">
+</head>
+
+<body style="background-color: #483D8B;" class="fade-in">
+    <div class="container" style="background-color: #FFFFFF;">
+        <div class="row">
+            <div class="col p-3">
+                <h1 class="display-4 text-center">Prediction Results</h1>
+                <hr>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <div class="alert" role="alert">
+                    <div class="container-fluid m-0 p-0">
+                        <div class="row shadow p-3 mb-5 bg-white rounded">
+                            <div class="col-4">
+                                <h2>Overview</h2>
+                                <p>A quick overview of any issues with your client, all located in one place.</p>
+                            </div>
+                            <div class="col-7 shadow-sm pt-3 mb-5 bg-white rounded">
+                                {% if bmi_level_overweight %}
+                                <div class="alert alert-warning" role="alert">
+                                    Your client is overweight.
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                {% endif %}
+                                {% if blood_pressure_warning %}
+                                <div class="alert alert-warning" role="alert">
+                                    Your client has elevated blood pressure.
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                {% endif %}
+                                {% if blood_pressure_danger %}
+                                <div class="alert alert-danger" role="alert">
+                                    Your client has high blood pressure.
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                {% endif %}
+                                {% if cholesterol_warning %}
+                                <div class="alert alert-warning" role="alert">
+                                    Your client's cholesterol is above normal.
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                {% endif %}
+                                {% if cholesterol_danger %}
+                                <div class="alert alert-danger" role="alert">
+                                    Your client's cholesterol is well above normal.
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                {% endif %}
+                                {% if glucose_warning %}
+                                <div class="alert alert-warning" role="alert">
+                                    Your client's glucose is above normal.
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                {% endif %}
+                                {% if glucose_danger %}
+                                <div class="alert alert-danger" role="alert">
+                                    Your client's glucose is well above normal.
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                {% endif %}
+                                {% if smoking_warning %}
+                                <div class="alert alert-warning" role="alert">
+                                    Your client is smoking.
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                {% endif %}
+                                {% if alcohol_warning %}
+                                <div class="alert alert-warning" role="alert">
+                                    Your client is drinking alcohol.
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                {% endif %}
+                                {% if physical_warning %}
+                                <div class="alert alert-warning" role="alert">
+                                    Your client is not physically active.
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                {% endif %}
+                                {% if not alerts_rendered %}
+                                <div class="alert alert-success" role="alert">
+                                    No problems to show - your patient is healthy!
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                {% endif %}
+                            </div>
+                            <div class="col-1">
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row mb-5">
+            <div class="col-7 d-flex align-items-center">
+                <div>
+                    <div class="alert alert-info" role="alert">
+                        <h2>Model Prediction</h2>
+                    </div>
+                    <p>The probability of heart disease in the patient, predicted using our Random Forest model. Less
+                        than 50% classifies as negative, and greater than 50% classifies as positive.</p>
+                </div>
+            </div>
+            <!-- to match the size of the other 268px icons -->
+            <div class="col-5 d-flex justify-content-center align-items-center" style="height: 268px;">
+                <div class="shadow p-5 mb-5 bg-white rounded zoom-on-hover" data-toggle="modal"
+                    data-target="#randomForestModal">
+                    <h1 class="display-1">{{prediction_result}} %</h1>
+                </div>
+            </div>
+        </div>
+        <div class="row mb-5">
+            <div class="col-7 d-flex align-items-center">
+                {% if bmi_level_overweight %}
+                <div class="w-100">
+                    <div class="alert alert-warning" role="alert">
+                        <h2>BMI: Unhealthy</h2>
+                    </div>
+                    <p>The patient's BMI exceeds 25%, indicating obesity. Being overweight can lead to fatty material
+                        buildup in the
+                        arteries, resulting in artery damage and the increased possiblity of a heart attack.</p>
+                </div>
+                {% else %}
+                <div class="w-100">
+                    <div class="alert alert-success" role="alert">
+                        <h2>BMI: Healthy</h2>
+                    </div>
+                    <p>The patient's BMI falls under 25%, indicating a healthy body weight. No problems here!</p>
+                </div>
+                {% endif %}
+            </div>
+            <div class="col-5 d-flex justify-content-center">
+                <a href="https://www.cdc.gov/healthyweight/assessing/bmi/index.html" target="_blank"
+                    class="zoom-on-hover">
+                    <img src="{% static 'machinelearning/bmi-image.png' %}" alt="BMI Image">
+                </a>
+            </div>
+        </div>
+        <div class="row mb-5">
+            <div class="col-7 d-flex align-items-center">
+                {% if blood_pressure_warning %}
+                <div class="w-100">
+                    <div class="alert alert-warning" role="alert">
+                        <h2>Blood Pressure: Above Normal</h2>
+                    </div>
+                    <p>While the patient's diastolic blood pressure remains normal, the patient's systolic blood
+                        pressure falls between
+                        the 120 - 129 ap_hi range, indicating elevated blood pressure.</p>
+                </div>
+                {% elif blood_pressure_danger %}
+                <div class="w-100">
+                    <div class="alert alert-danger" role="alert">
+                        <h2>Blood Pressure: Well Above Normal</h2>
+                    </div>
+                    <p>The patient's systolic blood pressure is above 130 ap_hi and diastolic blood pressure is above 80
+                        ap_lo,
+                        indicating high blood pressure. This can damage the arteries and decrease the flow of oxygen and
+                        blood to the
+                        heart.</p>
+                </div>
+                {% else %}
+                <div class="w-100">
+                    <div class="alert alert-success" role="alert">
+                        <h2>Blood Pressure: Normal</h2>
+                    </div>
+                    <p>The patient's systolic blood pressure falls under 120 and diastolic blood pressure falls under
+                        80, indicating healthy blood pressure. No problems here!</p>
+                </div>
+                {% endif %}
+            </div>
+            <div class="col-5 d-flex justify-content-center">
+                <a href="https://www.heart.org/en/health-topics/high-blood-pressure/understanding-blood-pressure-readings"
+                    target="_blank" class="zoom-on-hover">
+                    <img src="{% static 'machinelearning/blood-pressure-image.png' %}" alt="Blood Pressure Image">
+                </a>
+            </div>
+        </div>
+        <div class="row mb-5">
+            <div class="col-7 d-flex align-items-center">
+                {% if cholesterol_danger %}
+                <div class="w-100">
+                    <div class="alert alert-danger" role="alert">
+                        <h2>Cholesterol: Well Above Normal</h2>
+                    </div>
+                    <p>An abnormally high level of cholesterol indicates that it's possible that the patient already has
+                        large amount of
+                        fatty deposits in the arteries, and has a critical change of a heart attack.</p>
+                </div>
+                {% elif cholesterol_warning %}
+                <div class="w-100">
+                    <div class="alert alert-warning" role="alert">
+                        <h2>Cholesterol: Above Normal</h2>
+                    </div>
+                    <p>While not severe, the patient has a higher-than-normal level of cholesterol. This can lead to the
+                        buildup of
+                        fatty substances in the arteries.</p>
+                </div>
+                {% else %}
+                <div class="w-100">
+                    <div class="alert alert-success" role="alert">
+                        <h2>Cholesterol: Normal</h2>
+                    </div>
+                    <p>The patient's cholesterol falls within a healthy range - no problems here!</p>
+                </div>
+                {% endif %}
+            </div>
+            <div class="col-5 d-flex justify-content-center">
+                <a href="https://medlineplus.gov/cholesterol.html#:~:text=Cholesterol%20is%20a%20waxy%2C%20fat,all%20the%20cholesterol%20it%20needs."
+                    target="_blank" class="zoom-on-hover">
+                    <img src="{% static 'machinelearning/cholesterol-image.png' %}" alt="Cholesterol Image">
+                </a>
+            </div>
+        </div>
+        <div class="row mb-5">
+            <div class="col-7 d-flex align-items-center">
+                {% if glucose_danger %}
+                <div class="w-100">
+                    <div class="alert alert-danger" role="alert">
+                        <h2>Glucose: Well Above Normal</h2>
+                    </div>
+                    <p>An extremely high glucose level indicates the high chance of diabetes, which damages the blood
+                        vessels, as well
+                        as nerves that control the heart and blood vessels. People with diabetes have a tendency to
+                        develop heart
+                        disease at a much earlier age.</p>
+                </div>
+                {% elif glucose_warning %}
+                <div class="w-100">
+                    <div class="alert alert-warning" role="alert">
+                        <h2>Glucose: Above Normal</h2>
+                    </div>
+                    <p>An above-normal glucose level indicates the possiblity of diabetes, which could lead to long-term
+                        problems and an
+                        increased chance of developing heart disease.</p>
+                </div>
+                {% else %}
+                <div class="w-100">
+                    <div class="alert alert-success" role="alert">
+                        <h2>Glucose: Normal</h2>
+                    </div>
+                    <p>The patient's glucose falls within a healthy range - no problems here!</p>
+                </div>
+                {% endif %}
+            </div>
+            <div class="col-5 d-flex justify-content-center">
+                <a href="https://www.healthline.com/health/glucose#normal-levels" target="_blank" class="zoom-on-hover">
+                    <img src="{% static 'machinelearning/glucose-image.png' %}" alt="Glucose Image">
+                </a>
+            </div>
+        </div>
+        <div class="row mb-5">
+            <div class="col-7 d-flex align-items-center">
+                {% if smoking_warning %}
+                <div class="w-100">
+                    <div class="alert alert-warning" role="alert">
+                        <h2>Smoking Status: Yes</h2>
+                    </div>
+                    <p>Smoking is a major risk factor for ischemic heart disease, a condition in which plaque builds up
+                        in the coronary
+                        arteries, resulting in a condition called atherosclerosis.</p>
+                </div>
+                {% else %}
+                <div class="w-100">
+                    <div class="alert alert-success" role="alert">
+                        <h2>Smoking Status: No</h2>
+                    </div>
+                    <p>The patient doesn't smoke - no problems here!</p>
+                </div>
+                {% endif %}
+            </div>
+            <div class="col-5 d-flex justify-content-center">
+                <a href="https://www.nhlbi.nih.gov/health-topics/smoking-and-your-heart" target="_blank"
+                    class="zoom-on-hover">
+                    <img src="{% static 'machinelearning/smoking-image.png' %}" alt="Smoking Image">
+                </a>
+            </div>
+        </div>
+        <div class="row mb-5">
+            <div class="col-7 d-flex align-items-center">
+                {% if alcohol_warning %}
+                <div class="w-100">
+                    <div class="alert alert-warning" role="alert">
+                        <h2>Alcohol Status: Yes</h2>
+                    </div>
+                    <p>Excessive alcohol intake can lead to high blood pressure, heart failure or stroke. Excessive
+                        drinking can also
+                        contribute to cardiomyopathy, a disorder that affects the heart muscle.</p>
+                </div>
+                {% else %}
+                <div class="w-100">
+                    <div class="alert alert-success" role="alert">
+                        <h2>Alcohol Status: No</h2>
+                    </div>
+                    <p>The patient doesn't drink - no problems here!</p>
+                </div>
+                {% endif %}
+            </div>
+            <div class="col-5 d-flex justify-content-center">
+                <a href="https://www.webmd.com/heart-disease/guide/heart-disease-alcohol-your-heart" target="_blank"
+                    class="zoom-on-hover">
+                    <img src="{% static 'machinelearning/alcohol-image.png' %}" alt="Alcohol Image">
+                </a>
+            </div>
+        </div>
+        <div class="row pb-5">
+            <div class="col-7 d-flex align-items-center">
+                {% if physical_warning %}
+                <div class="w-100">
+                    <div class="alert alert-warning" role="alert">
+                        <h2>Exercise Status: No</h2>
+                    </div>
+                    <p>Exercise, especially cardio, can strengthen the heart and increase activity. It can also lower
+                        blood pressure and
+                        cholesterol levels.</p>
+                </div>
+                {% else %}
+                <div class="w-100">
+                    <div class="alert alert-success" role="alert">
+                        <h2>Exercise Status: Yes</h2>
+                    </div>
+                    <p>The patient is regularly exercising - no problems here!</p>
+                </div>
+                {% endif %}
+            </div>
+            <div class="col-5 d-flex justify-content-center">
+                <a href="https://www.ahajournals.org/doi/full/10.1161/01.CIR.0000048890.59383.8D" target="_blank"
+                    class="zoom-on-hover">
+                    <img src="{% static 'machinelearning/exercise-image.png' %}" alt="Exercise Image">
+                </a>
+            </div>
+        </div>
+        <div class="row pb-5">
+            <div class="col text-center">
+                <hr>
+                <a href="/treatments/" class="btn btn-outline-primary btn-lg">See Treatment Options</a>
+                <a href="/" class="btn btn-outline-primary btn-lg">Home</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Random Forest Model Information Modal -->
+    <div class="modal fade" id="randomForestModal" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Model Statistics</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col">
+                                Precision:
+                            </div>
+                            <div class="col">
+                                0.71734
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                Recall:
+                            </div>
+                            <div class="col">
+                                0.71729
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                F1 Score:
+                            </div>
+                            <div class="col">
+                                0.71727
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+
+</html>
